@@ -55,9 +55,9 @@ export default class Scene3DViewer extends React.Component {
     scene3D.add(camera);
 
     // Set position for the camera
-    let cameraPositionX = -(planData.boundingBox.max.x - planData.boundingBox.min.x) / 2;
-    let cameraPositionY = (planData.boundingBox.max.y - planData.boundingBox.min.y) / 2 * 10;
-    let cameraPositionZ = (planData.boundingBox.max.z - planData.boundingBox.min.z) / 2;
+    let cameraPositionX = (planData.boundingBox.max.x - planData.boundingBox.min.x) / 2;
+    let cameraPositionY = Math.abs(cameraPositionX)
+    let cameraPositionZ = (planData.boundingBox.max.z - planData.boundingBox.min.z) * 0.8;
 
     camera.position.set(cameraPositionX, cameraPositionY, cameraPositionZ);
     camera.up = new Three.Vector3(0, 1, 0);
@@ -115,6 +115,7 @@ export default class Scene3DViewer extends React.Component {
     // create orbit controls
     let orbitController = new OrbitControls(camera, this.renderer.domElement);
     let spotLightTarget = new Three.Object3D();
+    orbitController.target = new Three.Vector3(cameraPositionX, 0, -cameraPositionZ)
     spotLightTarget.position.set(orbitController.target.x, orbitController.target.y, orbitController.target.z);
     scene3D.add(spotLightTarget);
     spotLight1.target = spotLightTarget;
